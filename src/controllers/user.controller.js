@@ -13,7 +13,11 @@ export const registerUser = async (req, res, next) => {
     const { username, email, password, confirmPassword } = req.body;
 
     try {
-        if ([username, email, password, confirmPassword].some((field) => !field || field.trim() === ""))
+        if (
+            [username, email, password, confirmPassword].some(
+                (field) => !field || field.trim() === ""
+            )
+        )
             throw new ApiError(400, "All fields are required");
 
         if (password !== confirmPassword)
@@ -33,9 +37,7 @@ export const registerUser = async (req, res, next) => {
             password,
         });
 
-        const createdUser = await User.findById(user._id).select(
-            "-password"
-        );
+        const createdUser = await User.findById(user._id).select("-password");
 
         if (!createdUser)
             throw new ApiError(
@@ -71,9 +73,7 @@ export const loginUser = async (req, res, next) => {
 
         const accessToken = await generateToken(user);
 
-        const loggedInUser = await User.findById(user._id).select(
-            "-password"
-        );
+        const loggedInUser = await User.findById(user._id).select("-password");
 
         res.cookie("accessToken", accessToken, OPTIONS);
 
