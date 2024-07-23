@@ -119,3 +119,67 @@ export const getCurrentUser = async (req, res, next) => {
         next(new ApiError(500, error.message || "Error fetching current user"));
     }
 };
+
+export const updateUser = async (req, res, next) => {
+    const { username, email, oldPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    try {
+        if ([username, email].some((field) => !field || field.trim() === ""))
+            throw new ApiError(400, "Username and email are required");
+
+        const user = await User.findById(userId);
+
+        if (!user) throw new ApiError(404, "User not found");
+
+        // Check if the username or email is already taken
+        if (username !== user.username) {
+            const isUsernameExist = await User.findOne({ username });
+            if (isUsernameExist)
+                throw new ApiError(
+                    409,
+                    "User with this username already exists"
+                );
+        }
+
+        if (email !== user.email) {
+            const isEmailExist = await User.findOne({ email });
+            if (isEmailExist)
+                throw new ApiError(409, "User with this email already exists");
+        }
+
+        // Check if old password is correct
+        if (oldPassword) {
+            const isOldPasswordValid = await user.isValidPassword(oldPassword);
+            if (!isOldPasswordValid) {
+                throw new ApiError(400, "Old password is incorrect");
+            }
+
+            if (newPassword === oldPassword) {
+                throw new ApiError(
+                    400,
+                    "New password cannot be the same as old password"
+                );
+            }
+
+            user.password = newPassword;
+        }
+
+        // Update the user's information
+        user.username = username;
+        user.email = email;
+
+        await user.save();
+
+        const updatedUser = await User.findById(userId).select("-password");
+
+        const apiResponse = new ApiResponse(
+            200,
+            updatedUser,
+            "User updated successfully"
+        );
+        res.status(200).json(apiResponse);
+    } catch (error) {
+        next(new ApiError(500, error.message || "Error updating user"));
+    }
+};

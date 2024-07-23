@@ -4,6 +4,7 @@ import {
     loginUser,
     logoutUser,
     registerUser,
+    updateUser,
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/auth.middleware.js";
 
@@ -14,5 +15,6 @@ router.route("/login").post(loginUser);
 
 router.route("/logout").post(isAuthenticated, logoutUser);
 router.route("/current-user").get(isAuthenticated, getCurrentUser);
+router.route("/update").put(isAuthenticated, updateUser);
 
 export default router;
