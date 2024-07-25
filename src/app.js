@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/v1/users", userRouter);
-app.use("/api/folders", folderRoutes);
-app.use("/api/typebots", typeBotRoutes);
-app.use("/api/responses", responseRoutes);
+app.use("/api/v1/folders", folderRoutes);
+app.use("/api/v1/typebots", typeBotRoutes);
+app.use("/api/v1/responses", responseRoutes);
 
 app.use(errorHandler);
 

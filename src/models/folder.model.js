@@ -16,9 +16,9 @@ const folderSchema = new Schema(
     { timestamps: true }
 );
 
-folderSchema.pre("remove", async function (next) {
+folderSchema.pre("findOneAndDelete", async function (next) {
     const TypeBot = model("TypeBot");
-    await TypeBot.deleteMany({ folderId: this._id });
+    await TypeBot.deleteMany({ folderId: this._conditions._id });
     next();
 });
 

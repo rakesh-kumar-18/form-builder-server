@@ -33,11 +33,14 @@ export const deleteFolder = async (req, res, next) => {
     try {
         const folder = await Folder.findOne({ _id: folderId, userId });
 
-        if (!folder) {
-            throw new ApiError(404, "Folder not found");
+        if (!folder || folder.userId.toString() !== userId.toString()) {
+            throw new ApiError(
+                404,
+                "Folder not found or you don't have permission to delete this folder"
+            );
         }
 
-        await folder.remove();
+        await Folder.findOneAndDelete({ _id: folderId, userId });
 
         const apiResponse = new ApiResponse(
             200,
