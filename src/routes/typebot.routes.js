@@ -14,6 +14,6 @@ router.route("/").post(isAuthenticated, createTypeBot);
 router.route("/:typeBotId").delete(isAuthenticated, deleteTypeBot);
 router.route("/user").get(isAuthenticated, getUserTypeBots);
 router.route("/folder/:folderId").get(isAuthenticated, getTypeBotsByFolder);
-router.route("/:typeBotId").get(isAuthenticated, getTypeBotById);
+router.route("/:typeBotId").get(getTypeBotById);
 
 export default router;
