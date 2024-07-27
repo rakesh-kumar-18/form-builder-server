@@ -92,3 +92,25 @@ export const getTypeBotsByFolder = async (req, res, next) => {
         next(new ApiError(500, error.message || "Error fetching TypeBots"));
     }
 };
+
+// Get a TypeBot by ID
+export const getTypeBotById = async (req, res, next) => {
+    const { typeBotId } = req.params;
+
+    try {
+        const typeBot = await TypeBot.findById(typeBotId);
+
+        if (!typeBot) {
+            throw new ApiError(404, "TypeBot not found");
+        }
+
+        const apiResponse = new ApiResponse(
+            200,
+            typeBot,
+            "TypeBot fetched successfully"
+        );
+        res.status(200).json(apiResponse);
+    } catch (error) {
+        next(new ApiError(500, error.message || "Error fetching TypeBot"));
+    }
+};
