@@ -3,38 +3,54 @@ import { model, Schema } from "mongoose";
 // Define the flow schema for TypeBots
 const flowSchema = new Schema(
     {
+        baseType: {
+            type: String,
+            required: true,
+            enum: [
+                "Text",
+                "Image",
+                "Video",
+                "GIF",
+                "Input Text",
+                "Input Number",
+                "Input Email",
+                "Input Phone",
+                "Input Date",
+                "Input Rating",
+                "Input Button",
+            ],
+        },
         type: {
             type: String,
             required: true,
-            enum: ["text", "image", "video", "gif", "input"],
         },
-        content: {
+        text: {
             type: String,
             required: function () {
                 return (
-                    this.type === "text" ||
-                    this.type === "image" ||
-                    this.type === "video" ||
-                    this.type === "gif" ||
-                    this.type === "button"
+                    this.baseType === "Text" ||
+                    this.baseType === "Image" ||
+                    this.baseType === "Video" ||
+                    this.baseType === "GIF" ||
+                    this.baseType === "Input Button"
                 );
             },
         },
-        inputType: {
-            type: String,
-            enum: [
-                "text",
-                "number",
-                "email",
-                "phone",
-                "date",
-                "rating",
-                "button",
-            ],
-            required: function () {
-                return this.type === "input";
-            },
-        },
+        // inputType: {
+        //     type: String,
+        //     enum: [
+        //         "Text",
+        //         "Number",
+        //         "Email",
+        //         "Phone",
+        //         "Date",
+        //         "Rating",
+        //         "Button",
+        //     ],
+        //     required: function () {
+        //         return this.baseType.startsWith("Input");
+        //     },
+        // },
         required: {
             type: Boolean,
             default: false,
