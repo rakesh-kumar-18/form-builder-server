@@ -3,6 +3,10 @@ import { model, Schema } from "mongoose";
 // Define the individual response schema
 const individualResponseSchema = new Schema(
     {
+        responseId: {
+            type: String,
+            required: true,
+        },
         submittedAt: {
             type: Date,
             default: Date.now,
