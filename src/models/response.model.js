@@ -32,10 +32,6 @@ const responseSchema = new Schema(
             type: Number,
             default: 0,
         },
-        startCount: {
-            type: Number,
-            default: 0,
-        },
         completionCount: {
             type: Number,
             default: 0,

@@ -89,30 +89,6 @@ export const incrementViewCount = async (req, res, next) => {
     }
 };
 
-// Update start count
-export const incrementStartCount = async (req, res, next) => {
-    const { typeBotId } = req.params;
-
-    try {
-        const response = await Response.findOneAndUpdate(
-            { typeBotId },
-            { $inc: { startCount: 1 } },
-            { new: true, upsert: true }
-        );
-
-        const apiResponse = new ApiResponse(
-            200,
-            response,
-            "Start count incremented successfully"
-        );
-        res.status(200).json(apiResponse);
-    } catch (error) {
-        next(
-            new ApiError(500, error.message || "Error incrementing start count")
-        );
-    }
-};
-
 // Get responses for a TypeBot
 export const getResponses = async (req, res, next) => {
     const { typeBotId } = req.params;
