@@ -5,6 +5,7 @@ import {
     getUserTypeBots,
     getTypeBotsByFolder,
     getTypeBotById,
+    updateTypeBot,
 } from "../controllers/typebot.controller.js";
 import isAuthenticated from "../middlewares/auth.middleware.js";
 
@@ -15,5 +16,6 @@ router.route("/:typeBotId").delete(isAuthenticated, deleteTypeBot);
 router.route("/user").get(isAuthenticated, getUserTypeBots);
 router.route("/folder/:folderId").get(isAuthenticated, getTypeBotsByFolder);
 router.route("/:typeBotId").get(getTypeBotById);
+router.route("/:typeBotId").put(isAuthenticated, updateTypeBot);
 
 export default router;
