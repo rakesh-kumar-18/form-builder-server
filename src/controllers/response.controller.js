@@ -24,6 +24,7 @@ export const addResponse = async (req, res, next) => {
                         data: { ...data },
                     },
                 ],
+                completionCount: 0, // Initialize the completion count
             });
         } else {
             const existingResponseIndex = response.responses.findIndex(
@@ -31,25 +32,25 @@ export const addResponse = async (req, res, next) => {
             );
 
             if (existingResponseIndex >= 0) {
-                // Update the existing response data
                 const existingData =
                     response.responses[existingResponseIndex].data;
-
-                // Merge new data with existing data
                 for (const [key, value] of Object.entries(data)) {
                     existingData.set(key, value);
                 }
-
-                // Update the submittedAt timestamp
                 response.responses[existingResponseIndex].submittedAt =
                     new Date();
             } else {
-                // Add a new response entry
                 response.responses.push({
                     responseId,
                     data: { ...data },
                 });
             }
+        }
+
+        // Check if this is the last flow item
+        const lastFlowItem = typeBot.flow[typeBot.flow.length - 1];
+        if (interactionId === lastFlowItem.id) {
+            response.completionCount += 1; // Increment the completion count
         }
 
         await response.save();
