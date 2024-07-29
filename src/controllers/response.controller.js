@@ -9,6 +9,8 @@ export const addResponse = async (req, res, next) => {
     try {
         const typeBot = await TypeBot.findById(typeBotId);
 
+        const currInputType = Object.keys(data)[0];
+
         if (!typeBot) {
             throw new ApiError(404, "TypeBot not found");
         }
@@ -24,7 +26,7 @@ export const addResponse = async (req, res, next) => {
                         data: { ...data },
                     },
                 ],
-                completionCount: 0, // Initialize the completion count
+                completionCount: 0,
             });
         } else {
             const existingResponseIndex = response.responses.findIndex(
@@ -47,10 +49,12 @@ export const addResponse = async (req, res, next) => {
             }
         }
 
-        // Check if this is the last flow item
-        const lastFlowItem = typeBot.flow[typeBot.flow.length - 1];
-        if (interactionId === lastFlowItem.id) {
-            response.completionCount += 1; // Increment the completion count
+        const lastInputFlowItem = typeBot.flow
+            .filter((item) => item.baseType.startsWith("Input"))
+            .pop();
+
+        if (lastInputFlowItem && lastInputFlowItem.type === currInputType) {
+            response.completionCount += 1;
         }
 
         await response.save();
