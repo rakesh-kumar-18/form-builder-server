@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 
-// Define the flow schema for TypeBots
 const flowSchema = new Schema(
     {
         baseType: {
@@ -36,21 +35,6 @@ const flowSchema = new Schema(
                 );
             },
         },
-        // inputType: {
-        //     type: String,
-        //     enum: [
-        //         "Text",
-        //         "Number",
-        //         "Email",
-        //         "Phone",
-        //         "Date",
-        //         "Rating",
-        //         "Button",
-        //     ],
-        //     required: function () {
-        //         return this.baseType.startsWith("Input");
-        //     },
-        // },
         required: {
             type: Boolean,
             default: false,
@@ -59,7 +43,6 @@ const flowSchema = new Schema(
     { _id: false }
 );
 
-// Define the TypeBot schema
 const typeBotSchema = new Schema(
     {
         name: {
@@ -87,5 +70,4 @@ const typeBotSchema = new Schema(
     { timestamps: true }
 );
 
-// Create the TypeBot model
 export const TypeBot = model("TypeBot", typeBotSchema);

@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 
-// Define the individual response schema
 const individualResponseSchema = new Schema(
     {
         responseId: {
@@ -13,13 +12,12 @@ const individualResponseSchema = new Schema(
         },
         data: {
             type: Map,
-            of: String, // or use more specific type if needed
+            of: String,
         },
     },
     { _id: false }
 );
 
-// Define the response schema
 const responseSchema = new Schema(
     {
         typeBotId: {
@@ -40,5 +38,4 @@ const responseSchema = new Schema(
     { timestamps: true }
 );
 
-// Create the Response model
 export const Response = model("Response", responseSchema);
