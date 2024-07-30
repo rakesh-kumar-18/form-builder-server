@@ -7,6 +7,7 @@ import generateToken from "../utils/generateToken.js";
 const OPTIONS = {
     httpOnly: true,
     secure: true,
+    sameSite: "None",
 };
 
 export const registerUser = async (req, res, next) => {
