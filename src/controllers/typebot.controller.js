@@ -82,7 +82,7 @@ export const deleteTypeBot = async (req, res, next) => {
             throw new ApiError(404, "TypeBot not found");
         }
 
-        await TypeBot.deleteOne({ _id: typeBotId, userId });
+        await TypeBot.findOneAndDelete({ _id: typeBotId, userId });
 
         const apiResponse = new ApiResponse(
             200,

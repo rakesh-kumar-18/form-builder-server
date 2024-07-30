@@ -70,4 +70,10 @@ const typeBotSchema = new Schema(
     { timestamps: true }
 );
 
+typeBotSchema.pre("findOneAndDelete", async function (next) {
+    const Response = model("Response");
+    await Response.deleteOne({ typeBotId: this.getQuery()._id });
+    next();
+});
+
 export const TypeBot = model("TypeBot", typeBotSchema);
