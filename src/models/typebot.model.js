@@ -39,6 +39,10 @@ const flowSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        uuid: {
+            type: String,
+            required: true,
+        },
     },
     { _id: false }
 );
