@@ -8,6 +8,7 @@ const OPTIONS = {
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    domain: process.env.CORS_ORIGIN,
 };
 
 export const registerUser = async (req, res, next) => {
