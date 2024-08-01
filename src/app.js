@@ -19,6 +19,10 @@ app.use("/api/v1/folders", folderRoutes);
 app.use("/api/v1/typebots", typeBotRoutes);
 app.use("/api/v1/responses", responseRoutes);
 
+app.get("/keep-alive", (req, res) => {
+    res.status(200).send("Server is alive");
+});
+
 app.use(errorHandler);
 
 export default app;
