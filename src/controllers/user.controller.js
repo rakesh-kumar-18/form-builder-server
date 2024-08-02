@@ -6,7 +6,7 @@ import generateToken from "../utils/generateToken.js";
 
 const OPTIONS = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "None",
 };
 
